@@ -22,4 +22,11 @@ router.post("/create", async (req, res) => {
   res.sendStatus(201);
 });
 
+router.get("/:postId", async (req, res) => {
+  const postId = req.params.postId;
+
+  const postData = await Post.findOne({ where: { post_id: postId } });
+  res.json(postData);
+});
+
 module.exports = router;
