@@ -26,9 +26,17 @@ router.post("/signup", async (req, res, next) => {
     user_phone: req.body.userPhone,
     user_profile_pic: req.body.userProfilePic,
   };
+  console.log(userData);
 
   await User.create(userData);
   res.sendStatus(201);
+});
+
+/**
+ * (개발용) 회원가입 페이지
+ */
+router.get("/signup", async (req, res, next) => {
+  res.render("user/signUp");
 });
 
 module.exports = router;

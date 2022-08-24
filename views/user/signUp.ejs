@@ -1,0 +1,40 @@
+<h1>
+    Sign Up
+</h1>
+
+<form id="signUpForm" action="/user/signup" method="post" encType="multipart/form-data">
+    아이디: <input type="text" id="userId" name="userId" /> <br>
+    닉네임: <input type="text" id="userNickname" name="userNickname" /> <br>
+    암호:<input type="password" id="userPassword" name="userPassword" /> <br>
+    이름:<input type="text" id="userName" name="userName" /> <br>
+    전화번호:<input type="text" id="userPhone" name="userPhone" /> <br>
+    프로필 이미지:<input type="file" accept="image/jpg,image/png,image/jpeg,image/gif" id="userProfilePic"
+        name="userProfilePic" /> <br>
+    <input type="submit" value="제출">
+
+</form>
+
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script>
+
+    document.getElementById("signUpForm").onsubmit = () => {
+        axios.post('/user/signup', {
+            userId: document.getElementById("userId").value,
+            userNickname: document.getElementById("userNickname").value,
+            userPassword: document.getElementById("userPassword").value,
+            userName: document.getElementById("userName").value,
+            userPhone: document.getElementById("userPhone").value,
+            userProfilePic: document.getElementById("userProfilePic").value,
+        }, {
+            header: { 'content-type': 'multipart/form-data' },
+        })
+            .then(function (response) {
+                console.log(response);
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+        return false
+
+    }
+</script>
