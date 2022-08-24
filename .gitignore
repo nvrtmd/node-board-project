@@ -105,3 +105,6 @@ dist
 
 # model config
 config/config.json
+
+# uploads folder
+uploads

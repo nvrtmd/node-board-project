@@ -3,6 +3,7 @@ const router = express.Router();
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const fs = require("fs");
+const multer = require("multer");
 
 const { User } = require("../models/index");
 
@@ -26,21 +27,37 @@ router.get("/list", async (req, res, next) => {
 /**
  * 회원가입
  */
-router.post("/signup", async (req, res, next) => {
-  const encodedPassword = await bcrypt.hash(req.body.userPassword, 12);
-  const userData = {
-    user_id: req.body.userId,
-    user_nickname: req.body.userNickname,
-    user_password: encodedPassword,
-    user_name: req.body.userName,
-    user_phone: req.body.userPhone,
-    user_profile_image: req.body.userProfileImage,
-  };
-  console.log(userData);
-
-  await User.create(userData);
-  res.sendStatus(201);
+const uploadUserProfileImage = multer({
+  storage: multer.diskStorage({
+    destination: (req, file, cb) => {
+      cb(null, "uploads/");
+    },
+    filename: (req, file, cb) => {
+      cb(null, Date.now() + "-" + file.originalname); // 파일 원본이름 저장
+    },
+  }),
+  limits: { fileSize: 5 * 1024 * 1024 },
 });
+
+router.post(
+  "/signup",
+  uploadUserProfileImage.single("userProfileImage"),
+  async (req, res, next) => {
+    console.log(req.file);
+
+    // const encodedPassword = await bcrypt.hash(req.body.userPassword, 12);
+    // const userData = {
+    //   user_id: req.body.userId,
+    //   user_nickname: req.body.userNickname,
+    //   user_password: encodedPassword,
+    //   user_name: req.body.userName,
+    //   user_phone: req.body.userPhone,
+    //   user_profile_image: req.body.userProfileImage,
+    // };
+    // await User.create(userData);
+    // res.sendStatus(201);
+  }
+);
 
 /**
  * (개발용) 회원가입 페이지
