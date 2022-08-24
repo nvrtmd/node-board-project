@@ -43,4 +43,21 @@ router.post("/create", async (req, res) => {
   res.sendStatus(201);
 });
 
+/**
+ * 게시글 수정
+ */
+router.post("/modify/:postId", async (req, res) => {
+  const postId = req.params.postId;
+  const modifyPostData = {
+    post_title: req.body.postTitle,
+    post_contents: req.body.postContents,
+    post_display: JSON.parse(req.body.postDisplay),
+    post_modify_date: Date.now(),
+    post_modify_user_name: "anonymous",
+  };
+
+  await Post.update(modifyPostData, { where: { post_id: postId } });
+  res.sendStatus(201);
+});
+
 module.exports = router;
