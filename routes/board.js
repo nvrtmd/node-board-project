@@ -60,4 +60,19 @@ router.post("/modify/:postId", async (req, res) => {
   res.sendStatus(201);
 });
 
+/**
+ * 게시글 삭제
+ */
+router.delete("/delete/:postId", async (req, res) => {
+  const postId = req.params.postId;
+  const deletePostData = await Post.findOne({ where: { post_id: postId } });
+
+  if (deletePostData) {
+    await Post.destroy({ where: { post_id: postId } });
+    res.sendStatus(200);
+  } else {
+    res.sendStatus(404);
+  }
+});
+
 module.exports = router;
