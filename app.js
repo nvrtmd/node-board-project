@@ -1,14 +1,14 @@
-var createError = require("http-errors");
-var express = require("express");
-var path = require("path");
-var cookieParser = require("cookie-parser");
-var logger = require("morgan");
-var sequelize = require("./models/index.js").sequelize;
+const createError = require("http-errors");
+const express = require("express");
+const path = require("path");
+const cookieParser = require("cookie-parser");
+const logger = require("morgan");
+const sequelize = require("./models/index.js").sequelize;
 
 const boardRouter = require("./routes/board");
 const userRouter = require("./routes/user");
 
-var app = express();
+const app = express();
 
 sequelize.sync();
 // view engine setup

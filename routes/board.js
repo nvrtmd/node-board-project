@@ -1,10 +1,10 @@
-var express = require("express");
-var router = express.Router();
+const express = require("express");
+const router = express.Router();
 
 const { Post } = require("../models/index");
 
 /**
- * 게시글 목록 가져오기
+ * 게시글 목록 조회
  */
 router.get("/list", async (req, res, next) => {
   const postsData = await Post.findAll();
@@ -12,7 +12,7 @@ router.get("/list", async (req, res, next) => {
 });
 
 /**
- * 단일 게시글 가져오기
+ * 단일 게시글 조회
  */
 router.get("/:postId", async (req, res) => {
   const postId = req.params.postId;
