@@ -2,8 +2,18 @@ const express = require("express");
 const router = express.Router();
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+const fs = require("fs");
 
 const { User } = require("../models/index");
+
+/**
+ * 파일 업로드 용 폴더 생성
+ */
+fs.readdir("uploads", (err) => {
+  if (err) {
+    fs.mkdirSync("uploads");
+  }
+});
 
 /**
  * (개발용) 회원 정보 조회
@@ -24,7 +34,7 @@ router.post("/signup", async (req, res, next) => {
     user_password: encodedPassword,
     user_name: req.body.userName,
     user_phone: req.body.userPhone,
-    user_profile_pic: req.body.userProfilePic,
+    user_profile_image: req.body.userProfileImage,
   };
   console.log(userData);
 

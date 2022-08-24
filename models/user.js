@@ -20,7 +20,7 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING(100),
       allowNull: true,
     },
-    user_profile_pic: {
+    user_profile_image: {
       type: DataTypes.STRING(100),
       allowNull: true,
     },

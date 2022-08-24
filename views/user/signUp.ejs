@@ -8,8 +8,8 @@
     암호:<input type="password" id="userPassword" name="userPassword" /> <br>
     이름:<input type="text" id="userName" name="userName" /> <br>
     전화번호:<input type="text" id="userPhone" name="userPhone" /> <br>
-    프로필 이미지:<input type="file" accept="image/jpg,image/png,image/jpeg,image/gif" id="userProfilePic"
-        name="userProfilePic" /> <br>
+    프로필 이미지:<input type="file" accept="image/jpg,image/png,image/jpeg,image/gif" id="userProfileImage"
+        name="userProfileImage" /> <br>
     <input type="submit" value="제출">
 
 </form>
@@ -24,7 +24,7 @@
             userPassword: document.getElementById("userPassword").value,
             userName: document.getElementById("userName").value,
             userPhone: document.getElementById("userPhone").value,
-            userProfilePic: document.getElementById("userProfilePic").value,
+            userProfileImage: document.getElementById("userProfileImage").value,
         }, {
             header: { 'content-type': 'multipart/form-data' },
         })
