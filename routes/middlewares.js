@@ -1,7 +1,7 @@
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
-const { User } = require("../models");
+const { User, Post } = require("../models");
 
 exports.isExistedId = async (req, res, next) => {
   const userData = await User.findOne({ where: { user_id: req.body.userId } });
@@ -49,6 +49,22 @@ exports.isSignedIn = async (req, res, next) => {
     return res.status(401).json({
       code: 401,
       message: "user is unauthorized. Need to sign in.",
+    });
+  }
+};
+
+exports.permitPostModify = async (req, res, next) => {
+  const token = req.headers.cookie.split("=")[1];
+  const signedInUserId = jwt.verify(token, process.env.JWT_SECRET_KEY).userId;
+  const postId = req.params.postId;
+  const postData = await Post.findOne({ where: { post_id: postId } });
+
+  if (signedInUserId === postData.post_register_user_name) {
+    next();
+  } else {
+    return res.status(403).json({
+      code: 403,
+      message: "user is forbidden to modify or delete the post.",
     });
   }
 };

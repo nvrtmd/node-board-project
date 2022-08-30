@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const jwt = require("jsonwebtoken");
-const { isSignedIn } = require("./middlewares");
+const { isSignedIn, permitPostModify } = require("./middlewares");
 
 const { Post } = require("../models/index");
 
@@ -51,33 +51,46 @@ router.post("/create", isSignedIn, async (req, res) => {
 /**
  * 게시글 수정
  */
-router.post("/modify/:postId", async (req, res) => {
-  const postId = req.params.postId;
-  const modifyPostData = {
-    post_title: req.body.postTitle,
-    post_contents: req.body.postContents,
-    post_display: JSON.parse(req.body.postDisplay),
-    post_modify_date: Date.now(),
-    post_modify_user_name: "anonymous",
-  };
+router.post(
+  "/modify/:postId",
+  isSignedIn,
+  permitPostModify,
+  async (req, res) => {
+    const postId = req.params.postId;
+    const token = req.headers.cookie.split("=")[1];
+    const signedInUserId = jwt.verify(token, process.env.JWT_SECRET_KEY).userId;
 
-  await Post.update(modifyPostData, { where: { post_id: postId } });
-  res.sendStatus(201);
-});
+    const modifyPostData = {
+      post_title: req.body.postTitle,
+      post_contents: req.body.postContents,
+      post_display: JSON.parse(req.body.postDisplay),
+      post_modify_date: Date.now(),
+      post_modify_user_name: signedInUserId,
+    };
+
+    await Post.update(modifyPostData, { where: { post_id: postId } });
+    res.sendStatus(201);
+  }
+);
 
 /**
  * 게시글 삭제
  */
-router.delete("/delete/:postId", async (req, res) => {
-  const postId = req.params.postId;
-  const deletePostData = await Post.findOne({ where: { post_id: postId } });
+router.delete(
+  "/delete/:postId",
+  isSignedIn,
+  permitPostModify,
+  async (req, res) => {
+    const postId = req.params.postId;
+    const deletePostData = await Post.findOne({ where: { post_id: postId } });
 
-  if (deletePostData) {
-    await Post.destroy({ where: { post_id: postId } });
-    res.sendStatus(200);
-  } else {
-    res.sendStatus(404);
+    if (deletePostData) {
+      await Post.destroy({ where: { post_id: postId } });
+      res.sendStatus(200);
+    } else {
+      res.sendStatus(404);
+    }
   }
-});
+);
 
 module.exports = router;
