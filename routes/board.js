@@ -1,5 +1,6 @@
 const express = require("express");
 const router = express.Router();
+const jwt = require("jsonwebtoken");
 const { isSignedIn } = require("./middlewares");
 
 const { Post } = require("../models/index");
@@ -15,7 +16,7 @@ router.get("/list", async (req, res, next) => {
 /**
  * 단일 게시글 조회
  */
-router.get("/:postId", isSignedIn, async (req, res) => {
+router.get("/:postId", async (req, res) => {
   const postId = req.params.postId;
 
   const postData = await Post.findOne({ where: { post_id: postId } });
@@ -30,14 +31,17 @@ router.get("/:postId", isSignedIn, async (req, res) => {
 /**
  * 게시글 생성
  */
-router.post("/create", async (req, res) => {
+router.post("/create", isSignedIn, async (req, res) => {
+  const token = req.headers.cookie.split("=")[1];
+  const signedInUserId = jwt.verify(token, process.env.JWT_SECRET_KEY).userId;
+
   const postData = {
     post_title: req.body.postTitle,
     post_contents: req.body.postContents,
     post_views: 0,
     post_display: JSON.parse(req.body.postDisplay),
     post_register_date: Date.now(),
-    post_register_user_name: "anonymous",
+    post_register_user_name: signedInUserId,
   };
 
   await Post.create(postData);

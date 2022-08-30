@@ -37,7 +37,7 @@ exports.isSignedIn = async (req, res, next) => {
   try {
     const token = req.headers.cookie.split("=")[1];
     try {
-      const tokenResult = jwt.verify(token, process.env.JWT_SECRET_KEY);
+      const verifiedToken = jwt.verify(token, process.env.JWT_SECRET_KEY);
       next();
     } catch {
       return res.status(401).json({
