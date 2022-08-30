@@ -1,5 +1,6 @@
 const express = require("express");
 const router = express.Router();
+const { isSignedIn } = require("./middlewares");
 
 const { Post } = require("../models/index");
 
@@ -14,7 +15,7 @@ router.get("/list", async (req, res, next) => {
 /**
  * 단일 게시글 조회
  */
-router.get("/:postId", async (req, res) => {
+router.get("/:postId", isSignedIn, async (req, res) => {
   const postId = req.params.postId;
 
   const postData = await Post.findOne({ where: { post_id: postId } });
