@@ -4,7 +4,7 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const fs = require("fs");
 const multer = require("multer");
-const { isExistedId } = require("./middlewares");
+const { isExistedId, isCorrectPassword } = require("./middlewares");
 
 const { User } = require("../models/index");
 
@@ -56,22 +56,27 @@ router.get("/signup", async (req, res, next) => {
  * 로그인
  * 사용자가 id, password 전송 -> DB의 정보와 대조 -> 일치하면 쿠키에 jwt 넣어서 보냄 -> 사용자는 인증이 필요한 접근 때마다 쿠키로 jwt 넣어서 보내기
  */
-router.post("/signin", isExistedId, async (req, res, next) => {
-  console.log(123);
-  // const userData = {
-  //   userId: req.body.userId,
-  // };
+router.post(
+  "/signin",
+  isExistedId,
+  isCorrectPassword,
+  async (req, res, next) => {
+    const userData = {
+      userId: req.body.userId,
+    };
 
-  // const token = jwt.sign(userData, process.env.JWT_SECRET_KEY, {
-  //   expiresIn: "15m",
-  //   issuer: "YUZAMIN",
-  // });
+    const token = jwt.sign(userData, process.env.JWT_SECRET_KEY, {
+      expiresIn: "15m",
+      issuer: "YUZAMIN",
+    });
 
-  // res.status(200).json({
-  //   code: 200,
-  //   message: "jwt is created",
-  // });
-  // res.cookie("token", token, { httpOnly: true, maxAge: 24 * 60 * 60 * 1000 });
-});
+    res.cookie("token", token, { httpOnly: true, maxAge: 24 * 60 * 60 * 1000 });
+
+    res.status(200).json({
+      code: 200,
+      message: "jwt is created",
+    });
+  }
+);
 
 module.exports = router;
