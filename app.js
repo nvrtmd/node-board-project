@@ -4,6 +4,7 @@ const path = require("path");
 const cookieParser = require("cookie-parser");
 const logger = require("morgan");
 const sequelize = require("./models/index.js").sequelize;
+require("dotenv").config();
 
 const boardRouter = require("./routes/board");
 const userRouter = require("./routes/user");

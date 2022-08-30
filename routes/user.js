@@ -4,6 +4,7 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const fs = require("fs");
 const multer = require("multer");
+const { isExistedId } = require("./middlewares");
 
 const { User } = require("../models/index");
 
@@ -27,43 +28,50 @@ router.get("/list", async (req, res, next) => {
 /**
  * 회원가입
  */
-const uploadUserProfileImage = multer({
-  storage: multer.diskStorage({
-    destination: (req, file, cb) => {
-      cb(null, "uploads/");
-    },
-    filename: (req, file, cb) => {
-      cb(null, Date.now() + "-" + file.originalname); // 파일 원본이름 저장
-    },
-  }),
-  limits: { fileSize: 5 * 1024 * 1024 },
+router.post("/signup", async (req, res, next) => {
+  const encodedPassword = await bcrypt.hash(req.body.userPassword, 12);
+  const userData = {
+    user_id: req.body.userId,
+    user_nickname: req.body.userNickname,
+    user_password: encodedPassword,
+    user_name: req.body.userName,
+    user_phone: req.body.userPhone,
+    // user_profile_image: req.body.userProfileImage,
+  };
+  await User.create(userData);
+  return res.status(201).json({
+    code: 201,
+    message: "user is created",
+  });
 });
-
-router.post(
-  "/signup",
-  uploadUserProfileImage.single("userProfileImage"),
-  async (req, res, next) => {
-    console.log(req.file);
-
-    // const encodedPassword = await bcrypt.hash(req.body.userPassword, 12);
-    // const userData = {
-    //   user_id: req.body.userId,
-    //   user_nickname: req.body.userNickname,
-    //   user_password: encodedPassword,
-    //   user_name: req.body.userName,
-    //   user_phone: req.body.userPhone,
-    //   user_profile_image: req.body.userProfileImage,
-    // };
-    // await User.create(userData);
-    // res.sendStatus(201);
-  }
-);
 
 /**
  * (개발용) 회원가입 페이지
  */
 router.get("/signup", async (req, res, next) => {
   res.render("user/signUp");
+});
+
+/**
+ * 로그인
+ * 사용자가 id, password 전송 -> DB의 정보와 대조 -> 일치하면 쿠키에 jwt 넣어서 보냄 -> 사용자는 인증이 필요한 접근 때마다 쿠키로 jwt 넣어서 보내기
+ */
+router.post("/signin", isExistedId, async (req, res, next) => {
+  console.log(123);
+  // const userData = {
+  //   userId: req.body.userId,
+  // };
+
+  // const token = jwt.sign(userData, process.env.JWT_SECRET_KEY, {
+  //   expiresIn: "15m",
+  //   issuer: "YUZAMIN",
+  // });
+
+  // res.status(200).json({
+  //   code: 200,
+  //   message: "jwt is created",
+  // });
+  // res.cookie("token", token, { httpOnly: true, maxAge: 24 * 60 * 60 * 1000 });
 });
 
 module.exports = router;
