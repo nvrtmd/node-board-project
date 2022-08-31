@@ -82,13 +82,19 @@ router.delete(
   permitPostModify,
   async (req, res) => {
     const postId = req.params.postId;
-    const deletePostData = await Post.findOne({ where: { post_id: postId } });
+    const deletedPostData = await Post.findOne({ where: { post_id: postId } });
 
-    if (deletePostData) {
+    if (deletedPostData) {
       await Post.destroy({ where: { post_id: postId } });
-      res.sendStatus(200);
+      return res.status(200).json({
+        code: 200,
+        message: "post is deleted successfully.",
+      });
     } else {
-      res.sendStatus(404);
+      return res.status(404).json({
+        code: 404,
+        message: "cannot find post.",
+      });
     }
   }
 );

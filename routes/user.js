@@ -90,4 +90,29 @@ router.get("/signout", isSignedIn, async (req, res, next) => {
   });
 });
 
+/**
+ * 회원탈퇴
+ */
+router.delete("/deleteuser", isSignedIn, async (req, res, next) => {
+  const token = req.headers.cookie.split("=")[1];
+  const signedInUserId = jwt.verify(token, process.env.JWT_SECRET_KEY).userId;
+
+  const deletedUserData = await User.findOne({
+    where: { user_id: signedInUserId },
+  });
+
+  if (deletedUserData) {
+    await User.destroy({ where: { user_id: signedInUserId } });
+    return res.status(200).json({
+      code: 200,
+      message: "user is deleted successfully.",
+    });
+  } else {
+    return res.status(404).json({
+      code: 404,
+      message: "cannot find user.",
+    });
+  }
+});
+
 module.exports = router;
