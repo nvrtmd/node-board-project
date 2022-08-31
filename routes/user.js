@@ -105,7 +105,7 @@ router.delete("/deleteuser", isSignedIn, async (req, res, next) => {
     await User.destroy({ where: { user_id: signedInUserId } });
     return res.status(200).json({
       code: 200,
-      message: "user is deleted successfully.",
+      message: "deleted successfully.",
     });
   } else {
     return res.status(404).json({
@@ -122,13 +122,37 @@ router.get("/profile", isSignedIn, async (req, res, next) => {
   const token = req.headers.cookie.split("=")[1];
   const signedInUserId = jwt.verify(token, process.env.JWT_SECRET_KEY).userId;
 
-  const usersData = await User.findOne({
+  const userData = await User.findOne({
     where: { user_id: signedInUserId },
   });
 
   return res.status(200).json({
     code: 200,
-    data: usersData,
+    data: userData,
+  });
+});
+
+/**
+ * 회원 정보 수정
+ */
+router.post("/profile", isSignedIn, async (req, res, next) => {
+  const token = req.headers.cookie.split("=")[1];
+  const signedInUserId = jwt.verify(token, process.env.JWT_SECRET_KEY).userId;
+  const encodedPassword = await bcrypt.hash(req.body.userPassword, 12);
+
+  const modifyUserData = {
+    user_id: req.body.userId,
+    user_nickname: req.body.userNickname,
+    user_password: encodedPassword,
+    user_name: req.body.userName,
+    user_phone: req.body.userPhone,
+  };
+
+  await User.update(modifyUserData, { where: { user_id: signedInUserId } });
+
+  return res.status(201).json({
+    code: 201,
+    message: "modified successfully.",
   });
 });
 
