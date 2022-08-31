@@ -10,7 +10,11 @@ const { Post } = require("../models/index");
  */
 router.get("/list", async (req, res, next) => {
   const postsData = await Post.findAll();
-  res.json(postsData);
+
+  return res.status(200).json({
+    code: 200,
+    data: postsData,
+  });
 });
 
 /**
@@ -25,7 +29,11 @@ router.get("/:postId", async (req, res) => {
   };
 
   await Post.update(updatePostViews, { where: { post_id: postId } });
-  res.json(postData);
+
+  return res.status(200).json({
+    code: 200,
+    data: postData,
+  });
 });
 
 /**
@@ -45,7 +53,11 @@ router.post("/create", isSignedIn, async (req, res) => {
   };
 
   await Post.create(postData);
-  res.sendStatus(201);
+
+  return res.status(201).json({
+    code: 201,
+    message: "created successfully.",
+  });
 });
 
 /**
@@ -69,7 +81,11 @@ router.post(
     };
 
     await Post.update(modifyPostData, { where: { post_id: postId } });
-    res.sendStatus(201);
+
+    return res.status(201).json({
+      code: 201,
+      message: "modified successfully.",
+    });
   }
 );
 

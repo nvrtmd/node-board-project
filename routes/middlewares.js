@@ -42,13 +42,13 @@ exports.isSignedIn = async (req, res, next) => {
     } catch {
       return res.status(401).json({
         code: 401,
-        message: "user is unauthorized. Need to sign in.",
+        message: "unauthorized user. Need to sign in.",
       });
     }
   } catch {
     return res.status(401).json({
       code: 401,
-      message: "user is unauthorized. Need to sign in.",
+      message: "unauthorized user. Need to sign in.",
     });
   }
 };
@@ -64,7 +64,27 @@ exports.permitPostModify = async (req, res, next) => {
   } else {
     return res.status(403).json({
       code: 403,
-      message: "user is forbidden to modify or delete the post.",
+      message: "forbidden to modify or delete the post.",
     });
+  }
+};
+
+exports.isAdminUser = async (req, res, next) => {
+  const token = req.headers.cookie.split("=")[1];
+  const signedInUserId = jwt.verify(token, process.env.JWT_SECRET_KEY).userId;
+  const signedInUserData = await User.findOne({
+    where: { user_id: signedInUserId },
+  });
+  const adminUserData = await User.findOne({ where: { user_id: "admin" } });
+
+  if (signedInUserId === "admin") {
+    if (signedInUserData.user_password == adminUserData.user_password) {
+      next();
+    } else {
+      return res.status(403).json({
+        code: 403,
+        message: "forbidden to access.",
+      });
+    }
   }
 };

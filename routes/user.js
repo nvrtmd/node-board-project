@@ -4,7 +4,12 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const fs = require("fs");
 const multer = require("multer");
-const { isExistedId, isCorrectPassword, isSignedIn } = require("./middlewares");
+const {
+  isExistedId,
+  isCorrectPassword,
+  isSignedIn,
+  isAdminUser,
+} = require("./middlewares");
 
 const { User } = require("../models/index");
 
@@ -18,9 +23,9 @@ fs.readdir("uploads", (err) => {
 });
 
 /**
- * (개발용) 회원 정보 조회
+ * 회원 정보 조회
  */
-router.get("/list", async (req, res, next) => {
+router.get("/list", isAdminUser, async (req, res, next) => {
   const usersData = await User.findAll();
   res.json(usersData);
 });
@@ -39,9 +44,10 @@ router.post("/signup", async (req, res, next) => {
     // user_profile_image: req.body.userProfileImage,
   };
   await User.create(userData);
+
   return res.status(201).json({
     code: 201,
-    message: "user is created",
+    message: "created successfully.",
   });
 });
 
@@ -72,9 +78,9 @@ router.post(
 
     res.cookie("token", token, { httpOnly: true, maxAge: 24 * 60 * 60 * 1000 });
 
-    res.status(200).json({
-      code: 200,
-      message: "jwt is created",
+    res.status(201).json({
+      code: 201,
+      message: "created successfully.",
     });
   }
 );
@@ -84,6 +90,7 @@ router.post(
  */
 router.get("/signout", isSignedIn, async (req, res, next) => {
   res.clearCookie("token");
+
   return res.status(200).json({
     code: 200,
     message: "signed out successfully.",
