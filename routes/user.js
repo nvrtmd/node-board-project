@@ -4,7 +4,7 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const fs = require("fs");
 const multer = require("multer");
-const { isExistedId, isCorrectPassword } = require("./middlewares");
+const { isExistedId, isCorrectPassword, isSignedIn } = require("./middlewares");
 
 const { User } = require("../models/index");
 
@@ -78,5 +78,16 @@ router.post(
     });
   }
 );
+
+/**
+ * 로그아웃
+ */
+router.get("/signout", isSignedIn, async (req, res, next) => {
+  res.clearCookie("token");
+  return res.status(200).json({
+    code: 200,
+    message: "signed out successfully.",
+  });
+});
 
 module.exports = router;
