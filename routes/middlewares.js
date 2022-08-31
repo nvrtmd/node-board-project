@@ -72,6 +72,7 @@ exports.permitPostModify = async (req, res, next) => {
 exports.isAdminUser = async (req, res, next) => {
   const token = req.headers.cookie.split("=")[1];
   const signedInUserId = jwt.verify(token, process.env.JWT_SECRET_KEY).userId;
+  console.log("test");
   const signedInUserData = await User.findOne({
     where: { user_id: signedInUserId },
   });
