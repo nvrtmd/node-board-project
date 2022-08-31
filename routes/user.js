@@ -115,4 +115,21 @@ router.delete("/deleteuser", isSignedIn, async (req, res, next) => {
   }
 });
 
+/**
+ * 회원 정보 조회
+ */
+router.get("/profile", isSignedIn, async (req, res, next) => {
+  const token = req.headers.cookie.split("=")[1];
+  const signedInUserId = jwt.verify(token, process.env.JWT_SECRET_KEY).userId;
+
+  const usersData = await User.findOne({
+    where: { user_id: signedInUserId },
+  });
+
+  return res.status(200).json({
+    code: 200,
+    data: usersData,
+  });
+});
+
 module.exports = router;
