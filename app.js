@@ -36,6 +36,7 @@ let corsOptions = {
       callback(new Error("Not allowed by CORS"));
     }
   },
+  credential: true,
 };
 app.use(cors(corsOptions));
 
