@@ -3,7 +3,7 @@ const express = require("express");
 const path = require("path");
 const cookieParser = require("cookie-parser");
 const logger = require("morgan");
-import cors from "cors";
+const cors = require("cors");
 const sequelize = require("./models/index.js").sequelize;
 require("dotenv").config();
 
