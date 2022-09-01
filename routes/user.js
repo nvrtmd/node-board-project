@@ -76,12 +76,16 @@ router.post(
       issuer: "YUZAMIN",
     });
 
-    res.cookie("token", token, { maxAge: 24 * 60 * 60 * 1000 });
+    res.cookie("token", token, {
+      maxAge: 24 * 60 * 60 * 1000,
+      secure: true,
+      sameSite: "none",
+    });
 
-    res.setHeader(
-      "Set-Cookie",
-      `token=${token}; Path=/; HttpOnly; SameSite=none; secure=true`
-    );
+    // res.setHeader(
+    //   "Set-Cookie",
+    //   `token=${token}; Path=/; HttpOnly; SameSite=none; secure=true`
+    // );
 
     // res.cookie("token", token, {
     //   httpOnly: true,
