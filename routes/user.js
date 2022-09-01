@@ -78,10 +78,15 @@ router.post(
 
     // res.cookie("token", token, { httpOnly: true, maxAge: 24 * 60 * 60 * 1000 });
 
-    res.setHeader(
-      "Set-Cookie",
-      `token=${token}; Path=/; HttpOnly; SameSite=Strict`
-    );
+    // res.setHeader(
+    //   "Set-Cookie",
+    //   `token=${token}; Path=/; HttpOnly; SameSite=Strict`
+    // );
+
+    res.cookie("token", token, {
+      httpOnly: true,
+      origin: process.env.FRONT_URL,
+    });
 
     res.status(201).json({
       code: 201,
