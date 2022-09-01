@@ -23,22 +23,12 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 
-// const whitelist = [
-//   "http://localhost:3000",
-//   process.env.FRONT_URL,
-// ];
-
-// let corsOptions = {
-//   origin: function (origin, callback) {
-//     if (whitelist.indexOf(origin) !== -1) {
-//       callback(null, true);
-//     } else {
-//       callback(new Error("Not allowed by CORS"));
-//     }
-//   },
-//   credential: true,
-// };
-// app.use(cors(corsOptions));
+app.use(
+  cors({
+    credentials: true,
+    origin: process.env.FRONT_URL,
+  })
+);
 
 app.use(
   cors({
