@@ -22,12 +22,26 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
-app.use(
-  cors({
-    origin: "*",
-    credential: true,
-  })
-);
+
+const whitelist = ["http://localhost:3000", process.env.FRONT_URL];
+
+const corsOptions = {
+  origin: function (origin, callback) {
+    if (whitelist.indexOf(origin) >= 0 || !origin) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
+};
+app.use(cors(corsOptions));
+
+// app.use(
+//   cors({
+//     origin: "*",
+//     credential: true,
+//   })
+// );
 
 app.use("/board", boardRouter);
 app.use("/user", userRouter);
