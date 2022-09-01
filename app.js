@@ -24,8 +24,8 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 app.use(
   cors({
-    origin: true,
-    credential: true,
+    credentials: true,
+    origin: "https://react-board-project.netlify.app/",
   })
 );
 
