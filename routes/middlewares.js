@@ -34,6 +34,9 @@ exports.isCorrectPassword = async (req, res, next) => {
 };
 
 exports.isSignedIn = async (req, res, next) => {
+  res.setHeader("Access-Control-Allow-origin", process.env.FRONT_URL);
+  res.setHeader("Access-Control-Allow-Credentials", "true");
+
   try {
     const token = req.headers.cookie.split("=")[1];
     try {
