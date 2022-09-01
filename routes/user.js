@@ -78,10 +78,10 @@ router.post(
 
     res.cookie("token", token, { maxAge: 24 * 60 * 60 * 1000 });
 
-    // res.setHeader(
-    //   "Set-Cookie",
-    //   `token=${token}; Path=/; HttpOnly; SameSite=Strict`
-    // );
+    res.setHeader(
+      "Set-Cookie",
+      `token=${token}; Path=/; HttpOnly; SameSite=none; secure=true`
+    );
 
     // res.cookie("token", token, {
     //   httpOnly: true,
