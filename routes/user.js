@@ -45,9 +45,6 @@ router.post("/signup", async (req, res, next) => {
   };
   await User.create(userData);
 
-  res.setHeader("Access-Control-Allow-origin", process.env.FRONT_URL);
-  res.setHeader("Access-Control-Allow-Credentials", "true");
-
   return res.status(201).json({
     code: 201,
     message: "created successfully.",
@@ -80,9 +77,6 @@ router.post(
     });
 
     res.cookie("token", token, { httpOnly: true, maxAge: 24 * 60 * 60 * 1000 });
-
-    res.setHeader("Access-Control-Allow-origin", process.env.FRONT_URL);
-    res.setHeader("Access-Control-Allow-Credentials", "true");
 
     res.status(201).json({
       code: 201,
