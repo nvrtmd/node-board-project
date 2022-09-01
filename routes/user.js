@@ -76,8 +76,9 @@ router.post(
       issuer: "YUZAMIN",
     });
 
-    res.cookie("token", token, { httpOnly: true, maxAge: 24 * 60 * 60 * 1000 });
+    // res.cookie("token", token, { httpOnly: true, maxAge: 24 * 60 * 60 * 1000 });
 
+    res.writeHead(201, { "Set-Cookie": `token=${token}; HttpOnly` });
     res.status(201).json({
       code: 201,
       message: "created successfully.",
