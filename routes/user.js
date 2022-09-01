@@ -78,7 +78,7 @@ router.post(
 
     // res.cookie("token", token, { httpOnly: true, maxAge: 24 * 60 * 60 * 1000 });
 
-    res.setHeader(201, { "Set-Cookie": `token=${token}; HttpOnly` });
+    res.setHeader("Set-Cookie", `token=${token}; HttpOnly`);
 
     res.status(201).json({
       code: 201,
