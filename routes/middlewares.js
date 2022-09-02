@@ -24,6 +24,8 @@ exports.isCorrectPassword = async (req, res, next) => {
   );
 
   if (isCorrectPassword) {
+    res.setHeader("Access-Control-Allow-origin", process.env.FRONT_URL);
+    res.setHeader("Access-Control-Allow-Credentials", "true");
     return next();
   } else {
     return res.status(404).json({
