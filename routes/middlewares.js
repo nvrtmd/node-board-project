@@ -24,8 +24,8 @@ exports.isCorrectPassword = async (req, res, next) => {
   );
 
   if (isCorrectPassword) {
-    res.setHeader("Access-Control-Allow-origin", process.env.FRONT_URL);
-    res.setHeader("Access-Control-Allow-Credentials", "true");
+    // res.setHeader("Access-Control-Allow-origin", process.env.FRONT_URL);
+    // res.setHeader("Access-Control-Allow-Credentials", "true");
     return next();
   } else {
     return res.status(404).json({
@@ -36,8 +36,8 @@ exports.isCorrectPassword = async (req, res, next) => {
 };
 
 exports.isSignedIn = async (req, res, next) => {
-  res.setHeader("Access-Control-Allow-origin", process.env.FRONT_URL);
-  res.setHeader("Access-Control-Allow-Credentials", "true");
+  // res.setHeader("Access-Control-Allow-origin", process.env.FRONT_URL);
+  // res.setHeader("Access-Control-Allow-Credentials", "true");
 
   try {
     const token = req.headers.cookie.split("=")[1];
