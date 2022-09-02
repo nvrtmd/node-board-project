@@ -23,13 +23,6 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 
-// app.use(
-//   cors({
-//     credentials: true,
-//     origin: process.env.FRONT_URL,
-//   })
-// );
-
 app.use(
   cors({
     origin: [process.env.FRONT_URL, "http://localhost:3000"],

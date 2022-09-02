@@ -82,18 +82,18 @@ router.post(
     //   sameSite: "none",
     // });
 
-    res.setHeader(
-      "Set-Cookie",
-      `token=${token}; Path=/; HttpOnly; SameSite=none; secure=true`
-    );
+    // res.setHeader(
+    //   "Set-Cookie",
+    //   `token=${token}; Path=/; HttpOnly; SameSite=none; secure=true`
+    // );
 
-    // res.cookie("token", token, {
-    //   httpOnly: true,
-    //   origin: process.env.FRONT_URL,
-    //   maxAge: 24 * 60 * 60 * 1000,
-    //   secure: true,
-    //   sameSite: "none",
-    // });
+    res.cookie("token", token, {
+      httpOnly: true,
+      // origin: process.env.FRONT_URL,
+      maxAge: 24 * 60 * 60 * 1000,
+      secure: true,
+      sameSite: "none",
+    });
 
     res.status(201).json({
       code: 201,
