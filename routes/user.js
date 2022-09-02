@@ -78,7 +78,7 @@ router.post(
 
     res.setHeader(
       "Set-Cookie",
-      `token=${token}; Path=/; HttpOnly; SameSite=none; secure=true`
+      `token=${token}; Path=/; HttpOnly; SameSite=none; secure=true;`
     );
 
     res.status(201).json({
@@ -92,7 +92,11 @@ router.post(
  * 로그아웃
  */
 router.get("/signout", isSignedIn, async (req, res, next) => {
-  res.clearCookie("token");
+  // res.clearCookie("token");
+  res.setHeader(
+    "Set-Cookie",
+    `token=${token}; Path=/; HttpOnly; SameSite=none; secure=true; Max-Age=0`
+  );
 
   return res.status(200).json({
     code: 200,
