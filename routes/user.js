@@ -86,6 +86,8 @@ router.post(
       "Set-Cookie",
       `token=${token}; Path=/; HttpOnly; SameSite=none; secure=true`
     );
+    res.setHeader("Access-Control-Allow-origin", process.env.FRONT_URL);
+    res.setHeader("Access-Control-Allow-Credentials", "true");
 
     // res.cookie("token", token, {
     //   httpOnly: true,
