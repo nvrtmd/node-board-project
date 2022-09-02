@@ -171,15 +171,18 @@ router.post("/profile", isSignedIn, async (req, res, next) => {
 
   await User.update(modifyUserData, { where: { user_id: signedInUserId } });
 
-  // const newToken = jwt.sign(modifyUserData, process.env.JWT_SECRET_KEY, {
-  //   expiresIn: "15m",
-  //   issuer: "YUZAMIN",
-  // });
+  const newUserData = {
+    userId: modifyUserData.user_id,
+  };
+  const newToken = jwt.sign(newUserData, process.env.JWT_SECRET_KEY, {
+    expiresIn: "15m",
+    issuer: "YUZAMIN",
+  });
 
-  // res.setHeader(
-  //   "Set-Cookie",
-  //   `token=${newToken}; Path=/; HttpOnly; SameSite=none; secure=true;`
-  // );
+  res.setHeader(
+    "Set-Cookie",
+    `token=${newToken}; Path=/; HttpOnly; SameSite=none; secure=true;`
+  );
 
   return res.status(201).json({
     code: 201,
