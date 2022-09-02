@@ -33,7 +33,10 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use(
   cors({
     origin: [process.env.FRONT_URL, "http://localhost:3000"],
-    credential: true,
+    methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+    preflightContinue: false,
+    optionsSuccessStatus: 204,
+    credentials: true,
   })
 );
 
