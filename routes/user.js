@@ -118,6 +118,12 @@ router.delete("/deleteuser", isSignedIn, async (req, res, next) => {
 
   if (deletedUserData) {
     await User.destroy({ where: { user_id: signedInUserId } });
+    const token = req.headers.cookie.split("=")[1];
+
+    res.setHeader(
+      "Set-Cookie",
+      `token=${token}; Path=/; HttpOnly; SameSite=none; secure=true; Max-Age=0`
+    );
     return res.status(200).json({
       code: 200,
       message: "deleted successfully.",
