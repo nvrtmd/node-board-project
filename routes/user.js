@@ -93,6 +93,10 @@ router.post(
  */
 router.get("/signout", isSignedIn, async (req, res, next) => {
   // res.clearCookie("token");
+  // res.setHeader("Access-Control-Allow-origin", process.env.FRONT_URL);
+  // res.setHeader("Access-Control-Allow-Credentials", "true");
+  const token = req.headers.cookie.split("=")[1];
+
   res.setHeader(
     "Set-Cookie",
     `token=${token}; Path=/; HttpOnly; SameSite=none; secure=true; Max-Age=0`
