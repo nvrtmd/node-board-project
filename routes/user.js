@@ -78,11 +78,7 @@ router.post(
 
     res.setHeader(
       "Set-Cookie",
-      `token=${token}; Path=/; HttpOnly; SameSite=none; secure=true;`
-    );
-
-    res.setHeader(
-      "Set-Cookie",
+      `token=${token}; Path=/; HttpOnly; SameSite=none; secure=true;`,
       `isSignedin=true; Path=/; SameSite=none; secure=true; Max-Age=900`
     );
 
