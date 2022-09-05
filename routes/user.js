@@ -76,11 +76,10 @@ router.post(
       issuer: "YUZAMIN",
     });
 
-    res.setHeader(
-      "Set-Cookie",
+    res.setHeader("Set-Cookie", [
       `token=${token}; Path=/; HttpOnly; SameSite=none; secure=true;`,
-      `isSignedin=true; Path=/; SameSite=none; secure=true; Max-Age=900`
-    );
+      `isSignedin=true; Path=/; SameSite=none; secure=true; Max-Age=900`,
+    ]);
 
     res.status(201).json({
       code: 201,
