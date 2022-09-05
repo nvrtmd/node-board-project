@@ -92,7 +92,7 @@ router.post(
  * 로그아웃
  */
 router.get("/signout", isSignedIn, async (req, res, next) => {
-  const token = req.headers.cookie.split("=")[1];
+  const token = req.headers.cookie.split(";")[0].split("=")[1];
 
   res.setHeader(
     "Set-Cookie",
@@ -109,7 +109,7 @@ router.get("/signout", isSignedIn, async (req, res, next) => {
  * 회원탈퇴
  */
 router.delete("/deleteuser", isSignedIn, async (req, res, next) => {
-  const token = req.headers.cookie.split("=")[1];
+  const token = req.headers.cookie.split(";")[0].split("=")[1];
   const signedInUserId = jwt.verify(token, process.env.JWT_SECRET_KEY).userId;
 
   const deletedUserData = await User.findOne({
@@ -118,7 +118,7 @@ router.delete("/deleteuser", isSignedIn, async (req, res, next) => {
 
   if (deletedUserData) {
     await User.destroy({ where: { user_id: signedInUserId } });
-    const token = req.headers.cookie.split("=")[1];
+    const token = req.headers.cookie.split(";")[0].split("=")[1];
 
     res.setHeader(
       "Set-Cookie",
@@ -140,7 +140,7 @@ router.delete("/deleteuser", isSignedIn, async (req, res, next) => {
  * 회원 정보 조회
  */
 router.get("/profile", isSignedIn, async (req, res, next) => {
-  const token = req.headers.cookie.split("=")[1];
+  const token = req.headers.cookie.split(";")[0].split("=")[1];
   const signedInUserId = jwt.verify(token, process.env.JWT_SECRET_KEY).userId;
 
   const userData = await User.findOne({
@@ -157,7 +157,7 @@ router.get("/profile", isSignedIn, async (req, res, next) => {
  * 회원 정보 수정
  */
 router.post("/profile", isSignedIn, async (req, res, next) => {
-  const token = req.headers.cookie.split("=")[1];
+  const token = req.headers.cookie.split(";")[0].split("=")[1];
   const signedInUserId = jwt.verify(token, process.env.JWT_SECRET_KEY).userId;
   const encodedPassword = await bcrypt.hash(req.body.userPassword, 12);
 
