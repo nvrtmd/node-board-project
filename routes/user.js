@@ -125,7 +125,7 @@ router.delete("/deleteuser", isSignedIn, async (req, res, next) => {
     await User.destroy({ where: { user_id: signedInUserId } });
     const token = req.headers.cookie
       .split(";")
-      .filter((a) => a.slice(0, 5) == "token")[0]
+      .filter((cookie) => cookie.trim().slice(0, 5) == "token")[0]
       .split("=")[1];
     res.setHeader(
       "Set-Cookie",
