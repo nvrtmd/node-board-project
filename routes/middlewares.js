@@ -34,13 +34,13 @@ exports.isCorrectPassword = async (req, res, next) => {
 };
 
 exports.isSignedIn = async (req, res, next) => {
-  console.log(
-    "parsed",
-    req.headers.cookie
-      .split(";")
-      .filter((a) => a.slice(0, 5) == "token")[0]
-      .split("=")[1]
-  );
+  // console.log(
+  //   "parsed",
+  //   req.headers.cookie
+  //     .split(";")
+  //     .filter((a) => a.slice(0, 5) == "token")[0]
+  //     .split("=")[1]
+  // );
   console.log("req.headers.cookie", req.headers.cookie);
   try {
     const token = req.headers.cookie
