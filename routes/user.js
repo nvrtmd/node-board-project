@@ -81,6 +81,8 @@ router.post(
       `isSignedin=true; Path=/; SameSite=none; secure=true; Max-Age=900`,
     ]);
 
+    res.setHeader("Authorization", "Bearer " + "isSignedin=true");
+
     res.status(201).json({
       code: 201,
       message: "created successfully.",
