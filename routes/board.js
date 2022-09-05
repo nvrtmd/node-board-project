@@ -42,7 +42,7 @@ router.get("/:postId", async (req, res) => {
 router.post("/create", isSignedIn, async (req, res) => {
   const token = req.headers.cookie
     .split(";")
-    .filter((cookie) => cookie.slice(0, 5) == "token")[0]
+    .filter((cookie) => cookie.trim().slice(0, 5) == "token")[0]
     .split("=")[1];
   const signedInUserId = jwt.verify(token, process.env.JWT_SECRET_KEY).userId;
 

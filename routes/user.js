@@ -94,7 +94,7 @@ router.post(
 router.get("/signout", isSignedIn, async (req, res, next) => {
   const token = req.headers.cookie
     .split(";")
-    .filter((cookie) => cookie.slice(0, 5) == "token")[0]
+    .filter((cookie) => cookie.trim().slice(0, 5) == "token")[0]
     .split("=")[1];
   res.setHeader(
     "Set-Cookie",
@@ -113,7 +113,7 @@ router.get("/signout", isSignedIn, async (req, res, next) => {
 router.delete("/deleteuser", isSignedIn, async (req, res, next) => {
   const token = req.headers.cookie
     .split(";")
-    .filter((cookie) => cookie.slice(0, 5) == "token")[0]
+    .filter((cookie) => cookie.trim().slice(0, 5) == "token")[0]
     .split("=")[1];
   const signedInUserId = jwt.verify(token, process.env.JWT_SECRET_KEY).userId;
 
@@ -149,7 +149,7 @@ router.delete("/deleteuser", isSignedIn, async (req, res, next) => {
 router.get("/profile", isSignedIn, async (req, res, next) => {
   const token = req.headers.cookie
     .split(";")
-    .filter((cookie) => cookie.slice(0, 5) == "token")[0]
+    .filter((cookie) => cookie.trim().slice(0, 5) == "token")[0]
     .split("=")[1];
   const signedInUserId = jwt.verify(token, process.env.JWT_SECRET_KEY).userId;
 
@@ -169,7 +169,7 @@ router.get("/profile", isSignedIn, async (req, res, next) => {
 router.post("/profile", isSignedIn, async (req, res, next) => {
   const token = req.headers.cookie
     .split(";")
-    .filter((cookie) => cookie.slice(0, 5) == "token")[0]
+    .filter((cookie) => cookie.trim().slice(0, 5) == "token")[0]
     .split("=")[1];
   const signedInUserId = jwt.verify(token, process.env.JWT_SECRET_KEY).userId;
   const encodedPassword = await bcrypt.hash(req.body.userPassword, 12);
