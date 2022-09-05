@@ -35,10 +35,7 @@ exports.isCorrectPassword = async (req, res, next) => {
 
 exports.isSignedIn = async (req, res, next) => {
   try {
-    const token = req.headers.cookie
-      .split(";")
-      .filter((cookie) => cookie.trim().slice(0, 5) == "token")[0]
-      .split("=")[1];
+    const token = req.headers.cookie.split("=")[1];
     try {
       const verifiedToken = jwt.verify(token, process.env.JWT_SECRET_KEY);
       next();
@@ -57,10 +54,7 @@ exports.isSignedIn = async (req, res, next) => {
 };
 
 exports.permitPostModify = async (req, res, next) => {
-  const token = req.headers.cookie
-    .split(";")
-    .filter((cookie) => cookie.trim().slice(0, 5) == "token")[0]
-    .split("=")[1];
+  const token = req.headers.cookie.split("=")[1];
   const signedInUserId = jwt.verify(token, process.env.JWT_SECRET_KEY).userId;
   const postId = req.params.postId;
   const postData = await Post.findOne({ where: { post_id: postId } });
@@ -76,10 +70,7 @@ exports.permitPostModify = async (req, res, next) => {
 };
 
 exports.isAdminUser = async (req, res, next) => {
-  const token = req.headers.cookie
-    .split(";")
-    .filter((cookie) => cookie.trim().slice(0, 5) == "token")[0]
-    .split("=")[1];
+  const token = req.headers.cookie.split("=")[1];
   const signedInUserId = jwt.verify(token, process.env.JWT_SECRET_KEY).userId;
   console.log("test");
   const signedInUserData = await User.findOne({
