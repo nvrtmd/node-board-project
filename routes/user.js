@@ -81,6 +81,11 @@ router.post(
       `token=${token}; Path=/; HttpOnly; SameSite=none; secure=true;`
     );
 
+    res.setHeader(
+      "Set-Cookie",
+      `isSignedin=true; Path=/; SameSite=none; secure=true; Max-Age=900`
+    );
+
     res.status(201).json({
       code: 201,
       message: "created successfully.",
