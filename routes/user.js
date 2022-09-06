@@ -22,6 +22,13 @@ fs.readdir("uploads", (err) => {
   }
 });
 
+const cookieConfig = {
+  httpOnly: true,
+  sameSite: none,
+  secure: true,
+  path: "/",
+};
+
 /**
  * 회원 정보 조회
  */
@@ -76,12 +83,12 @@ router.post(
       issuer: "YUZAMIN",
     });
 
-    res.setHeader(
-      "Set-Cookie",
-      `token=${token}; Path=/; HttpOnly; SameSite=none; secure=true;`
-    );
+    // res.setHeader(
+    //   "Set-Cookie",
+    //   `token=${token}; Path=/; HttpOnly; SameSite=none; secure=true;`
+    // );
 
-    res.setHeader("Authorization", "Bearer " + "isSignedin=true");
+    res.cookie("token", token, cookieConfig);
 
     res.status(201).json({
       code: 201,
@@ -95,10 +102,12 @@ router.post(
  */
 router.get("/signout", isSignedIn, async (req, res, next) => {
   const token = req.headers.cookie.split("=")[1];
-  res.setHeader(
-    "Set-Cookie",
-    `token=${token}; Path=/; HttpOnly; SameSite=none; secure=true; Max-Age=0`
-  );
+  // res.setHeader(
+  //   "Set-Cookie",
+  //   `token=${token}; Path=/; HttpOnly; SameSite=none; secure=true; Max-Age=0`
+  // );
+
+  res.cookie("token", token, cookieConfig);
 
   return res.status(200).json({
     code: 200,
@@ -120,10 +129,13 @@ router.delete("/deleteuser", isSignedIn, async (req, res, next) => {
   if (deletedUserData) {
     await User.destroy({ where: { user_id: signedInUserId } });
     const token = req.headers.cookie.split("=")[1];
-    res.setHeader(
-      "Set-Cookie",
-      `token=${token}; Path=/; HttpOnly; SameSite=none; secure=true; Max-Age=0`
-    );
+    // res.setHeader(
+    //   "Set-Cookie",
+    //   `token=${token}; Path=/; HttpOnly; SameSite=none; secure=true; Max-Age=0`
+    // );
+
+    res.cookie("token", token, cookieConfig);
+
     return res.status(200).json({
       code: 200,
       message: "deleted successfully.",
@@ -179,10 +191,12 @@ router.post("/profile", isSignedIn, async (req, res, next) => {
     issuer: "YUZAMIN",
   });
 
-  res.setHeader(
-    "Set-Cookie",
-    `token=${newToken}; Path=/; HttpOnly; SameSite=none; secure=true;`
-  );
+  // res.setHeader(
+  //   "Set-Cookie",
+  //   `token=${newToken}; Path=/; HttpOnly; SameSite=none; secure=true;`
+  // );
+
+  res.cookie("token", token, cookieConfig);
 
   return res.status(201).json({
     code: 201,
