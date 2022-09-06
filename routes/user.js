@@ -88,8 +88,6 @@ router.post(
       `token=${token}; Path=/; HttpOnly; SameSite=none; secure=true;`
     );
 
-    // res.cookie("test", "test", cookieConfig);
-
     res.status(201).json({
       code: 201,
       message: "created successfully.",
