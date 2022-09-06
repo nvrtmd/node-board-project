@@ -24,7 +24,7 @@ fs.readdir("uploads", (err) => {
 
 const cookieConfig = {
   httpOnly: true,
-  sameSite: none,
+  sameSite: "None",
   secure: true,
   path: "/",
 };
