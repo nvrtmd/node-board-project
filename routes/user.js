@@ -85,7 +85,7 @@ router.post(
 
     res.setHeader(
       "Set-Cookie",
-      `token=${token}; Path=/; HttpOnly; SameSite=none; secure=true;`
+      `token=${token}; Path=/; HttpOnly; SameSite=none; secure=true; Domain=${process.env.FRONT_URL}`
     );
 
     // res.cookie("test", "test", cookieConfig);

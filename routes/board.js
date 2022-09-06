@@ -8,16 +8,8 @@ const { Post } = require("../models/index");
 /**
  * 게시글 목록 조회
  */
-const cookieConfig = {
-  // httpOnly: true,
-  sameSite: "none",
-  secure: true,
-  path: "/",
-};
-
 router.get("/list", async (req, res, next) => {
   const postsData = await Post.findAll();
-  res.cookie("test", "test", cookieConfig);
 
   return res.status(200).json({
     code: 200,
