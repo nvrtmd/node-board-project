@@ -10,6 +10,7 @@ const { Post } = require("../models/index");
  */
 router.get("/list", async (req, res, next) => {
   const postsData = await Post.findAll();
+  res.setHeader("Set-Cookie", `test; Path=/; SameSite=none; secure=true;`);
 
   return res.status(200).json({
     code: 200,
