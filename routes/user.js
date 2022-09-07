@@ -79,8 +79,8 @@ router.post(
     };
 
     const token = jwt.sign(userData, process.env.JWT_SECRET_KEY, {
-      expiresIn: "15m",
-      issuer: "YUZAMIN",
+      expiresIn: process.env.JWT_EXPIRE_TIME,
+      issuer: process.env.JWT_ISSUER,
     });
 
     res.setHeader(
@@ -186,8 +186,8 @@ router.post("/profile", isSignedIn, async (req, res, next) => {
     userId: modifyUserData.user_id,
   };
   const newToken = jwt.sign(newUserData, process.env.JWT_SECRET_KEY, {
-    expiresIn: "15m",
-    issuer: "YUZAMIN",
+    expiresIn: process.env.JWT_EXPIRE_TIME,
+    issuer: process.env.JWT_ISSUER,
   });
 
   res.setHeader(
