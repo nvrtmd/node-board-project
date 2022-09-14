@@ -22,13 +22,6 @@ fs.readdir("uploads", (err) => {
   }
 });
 
-const cookieConfig = {
-  // httpOnly: true,
-  sameSite: "none",
-  secure: true,
-  path: "/",
-};
-
 /**
  * 회원 정보 조회
  */
