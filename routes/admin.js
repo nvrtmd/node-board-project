@@ -16,7 +16,10 @@ const { User } = require("../models/index");
  */
 router.get("/userlist", isAdminUser, async (req, res, next) => {
   const usersData = await User.findAll();
-  res.json(usersData);
+  return res.status(200).json({
+    code: 200,
+    data: usersData,
+  });
 });
 
 module.exports = router;
