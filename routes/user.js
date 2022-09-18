@@ -23,14 +23,6 @@ fs.readdir("uploads", (err) => {
 });
 
 /**
- * 회원 정보 조회
- */
-router.get("/list", isAdminUser, async (req, res, next) => {
-  const usersData = await User.findAll();
-  res.json(usersData);
-});
-
-/**
  * 회원가입
  */
 router.post("/signup", async (req, res, next) => {

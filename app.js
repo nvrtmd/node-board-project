@@ -9,6 +9,7 @@ require("dotenv").config();
 
 const boardRouter = require("./routes/board");
 const userRouter = require("./routes/user");
+const adminRouter = require("./routes/admin");
 
 const app = express();
 
@@ -25,7 +26,7 @@ app.use(express.static(path.join(__dirname, "public")));
 
 app.use(
   cors({
-    origin: [process.env.FRONT_URL, "http://localhost:3000"],
+    origin: [process.env.FRONT_URL, "http://localhost:3001"],
     methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
     preflightContinue: false,
     optionsSuccessStatus: 204,
@@ -35,6 +36,7 @@ app.use(
 
 app.use("/board", boardRouter);
 app.use("/user", userRouter);
+app.use("/admin", adminRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
