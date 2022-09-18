@@ -28,7 +28,7 @@ app.use(
   cors({
     origin: [
       process.env.FRONT_URL,
-      "http://localhost:3001",
+      // "http://localhost:3001",
       "http://localhost:3000",
     ],
     methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
