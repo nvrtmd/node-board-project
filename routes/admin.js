@@ -35,4 +35,25 @@ router.get("/user/:userIndex", isAdminUser, async (req, res, next) => {
   });
 });
 
+/**
+ * 회원 계정 삭제
+ */
+router.delete("/user/:userIndex", isAdminUser, async (req, res, next) => {
+  const userIndex = req.params.userIndex;
+  const deletedUserData = await User.findOne({ where: { id: userIndex } });
+
+  if (deletedUserData) {
+    await User.destroy({ where: { id: userIndex } });
+    return res.status(200).json({
+      code: 200,
+      message: "user is deleted successfully.",
+    });
+  } else {
+    return res.status(404).json({
+      code: 404,
+      message: "cannot find user.",
+    });
+  }
+});
+
 module.exports = router;
