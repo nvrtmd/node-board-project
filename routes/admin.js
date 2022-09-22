@@ -1,14 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const bcrypt = require("bcryptjs");
-const jwt = require("jsonwebtoken");
-const {
-  isExistedId,
-  isCorrectPassword,
-  isSignedIn,
-  isAdminUser,
-} = require("./middlewares");
-
+const { isAdminUser } = require("../middlewares/userMiddlewares");
 const { User } = require("../models/index");
 
 /**

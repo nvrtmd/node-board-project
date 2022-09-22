@@ -8,8 +8,7 @@ const {
   isExistedId,
   isCorrectPassword,
   isSignedIn,
-  isAdminUser,
-} = require("./middlewares");
+} = require("../middlewares/userMiddlewares");
 
 const { User } = require("../models/index");
 

@@ -1,7 +1,8 @@
 const express = require("express");
 const router = express.Router();
 const jwt = require("jsonwebtoken");
-const { isSignedIn, permitPostModify } = require("./middlewares");
+const { permitPostModify } = require("../middlewares/boardMiddlewares");
+const { isSignedIn } = require("../middlewares/userMiddlewares");
 
 const { Post } = require("../models/index");
 
