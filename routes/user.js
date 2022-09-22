@@ -8,6 +8,7 @@ const {
   isExistedId,
   isCorrectPassword,
   isSignedIn,
+  isValidSignin,
 } = require("../middlewares/userMiddlewares");
 
 const { User } = require("../models/index");
@@ -55,6 +56,7 @@ router.get("/signup", async (req, res, next) => {
  */
 router.post(
   "/signin",
+  isValidSignin,
   isExistedId,
   isCorrectPassword,
   async (req, res, next) => {

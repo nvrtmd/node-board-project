@@ -1,9 +1,27 @@
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+const { body, validationResult } = require("express-validator");
 
-const { User, Post } = require("../models");
+const { User } = require("../models");
 
-exports.isExistedId = async (req, res, next) => {
+const isValidSignin = [
+  body("userId").notEmpty().withMessage("please enter user id."),
+  body("userPassword")
+    .trim()
+    .notEmpty()
+    .withMessage("please enter user password."),
+  (req, res, next) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res
+        .status(400)
+        .json({ code: 400, message: errors.array().map((error) => error.msg) });
+    }
+    next();
+  },
+];
+
+const isExistedId = async (req, res, next) => {
   const userData = await User.findOne({ where: { user_id: req.body.userId } });
   if (userData) {
     return next();
@@ -15,7 +33,7 @@ exports.isExistedId = async (req, res, next) => {
   }
 };
 
-exports.isCorrectPassword = async (req, res, next) => {
+const isCorrectPassword = async (req, res, next) => {
   const userData = await User.findOne({ where: { user_id: req.body.userId } });
 
   const isCorrectPassword = await bcrypt.compare(
@@ -33,7 +51,7 @@ exports.isCorrectPassword = async (req, res, next) => {
   }
 };
 
-exports.isSignedIn = async (req, res, next) => {
+const isSignedIn = async (req, res, next) => {
   try {
     const token = req.headers.cookie.split("=")[1];
     try {
@@ -53,7 +71,7 @@ exports.isSignedIn = async (req, res, next) => {
   }
 };
 
-exports.isAdminUser = async (req, res, next) => {
+const isAdminUser = async (req, res, next) => {
   const token = req.headers.cookie.split("=")[1];
   const signedInUserId = jwt.verify(token, process.env.JWT_SECRET_KEY).userId;
   const signedInUserData = await User.findOne({
@@ -71,4 +89,12 @@ exports.isAdminUser = async (req, res, next) => {
       });
     }
   }
+};
+
+module.exports = {
+  isExistedId,
+  isCorrectPassword,
+  isSignedIn,
+  isAdminUser,
+  isValidSignin,
 };
