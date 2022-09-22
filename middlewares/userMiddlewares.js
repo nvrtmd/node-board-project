@@ -51,6 +51,26 @@ const isCorrectPassword = async (req, res, next) => {
   }
 };
 
+const isValidSignup = [
+  body("userId").notEmpty().withMessage("please enter user id."),
+  body("userPassword")
+    .trim()
+    .notEmpty()
+    .withMessage("please enter user password."),
+  body("userNickname").notEmpty().withMessage("please enter user nickname."),
+  body("userName").notEmpty().withMessage("please enter user name."),
+  body("userPhone").notEmpty().withMessage("please enter user phone number."),
+  (req, res, next) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res
+        .status(400)
+        .json({ code: 400, message: errors.array().map((error) => error.msg) });
+    }
+    next();
+  },
+];
+
 const isSignedIn = async (req, res, next) => {
   try {
     const token = req.headers.cookie.split("=")[1];
@@ -97,4 +117,5 @@ module.exports = {
   isSignedIn,
   isAdminUser,
   isValidSignin,
+  isValidSignup,
 };

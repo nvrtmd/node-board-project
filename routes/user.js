@@ -9,6 +9,7 @@ const {
   isCorrectPassword,
   isSignedIn,
   isValidSignin,
+  isValidSignup,
 } = require("../middlewares/userMiddlewares");
 
 const { User } = require("../models/index");
@@ -25,7 +26,7 @@ fs.readdir("uploads", (err) => {
 /**
  * 회원가입
  */
-router.post("/signup", async (req, res, next) => {
+router.post("/signup", isValidSignup, async (req, res, next) => {
   const encodedPassword = await bcrypt.hash(req.body.userPassword, 12);
   const userData = {
     user_id: req.body.userId,
