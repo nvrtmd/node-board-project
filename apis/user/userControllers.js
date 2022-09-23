@@ -6,7 +6,7 @@ const userServices = require("./userServices");
  */
 async function signup(req, res, next) {
   try {
-    userServices.signup(req);
+    await userServices.signup(req);
     return res.status(StatusCodes.CREATED).send(ReasonPhrases.CREATED);
   } catch {
     return res
@@ -20,7 +20,7 @@ async function signup(req, res, next) {
  */
 async function signin(req, res, next) {
   try {
-    userServices.signin(req, res);
+    await userServices.signin(req, res);
     return res.status(StatusCodes.OK).send(ReasonPhrases.OK);
   } catch {
     return res
@@ -34,7 +34,7 @@ async function signin(req, res, next) {
  */
 async function signout(req, res, next) {
   try {
-    userServices.signout(req, res);
+    await userServices.signout(req, res);
     return res.status(StatusCodes.OK).send(ReasonPhrases.OK);
   } catch {
     return res
@@ -48,7 +48,7 @@ async function signout(req, res, next) {
  */
 async function deleteUser(req, res, next) {
   try {
-    userServices.deleteUser(req, res);
+    await userServices.deleteUser(req, res);
   } catch {
     return res
       .status(StatusCodes.INTERNAL_SERVER_ERROR)
@@ -77,7 +77,7 @@ async function getProfile(req, res, next) {
  */
 async function modifyProfile(req, res, next) {
   try {
-    userServices.modifyProfile(req);
+    await userServices.modifyProfile(req);
     return res.status(StatusCodes.CREATED).send(ReasonPhrases.CREATED);
   } catch {
     return res
