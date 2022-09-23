@@ -1,8 +1,8 @@
 const express = require("express");
 const router = express.Router();
 const jwt = require("jsonwebtoken");
-const { permitPostModify } = require("../middlewares/boardMiddlewares");
-const { isSignedIn } = require("../middlewares/userMiddlewares");
+const boardMiddlewares = require("../middlewares/boardMiddlewares");
+const userMiddlewares = require("../middlewares/userMiddlewares");
 
 const { Post } = require("../models/index");
 
@@ -40,7 +40,7 @@ router.get("/:postId", async (req, res) => {
 /**
  * 게시글 생성
  */
-router.post("/create", isSignedIn, async (req, res) => {
+router.post("/create", userMiddlewares.isSignedIn, async (req, res) => {
   const token = req.headers.cookie.split("=")[1];
   const signedInUserId = jwt.verify(token, process.env.JWT_SECRET_KEY).userId;
 
@@ -66,8 +66,8 @@ router.post("/create", isSignedIn, async (req, res) => {
  */
 router.post(
   "/modify/:postId",
-  isSignedIn,
-  permitPostModify,
+  userMiddlewares.isSignedIn,
+  boardMiddlewares.permitPostModify,
   async (req, res) => {
     const postId = req.params.postId;
     const token = req.headers.cookie.split("=")[1];
@@ -95,8 +95,8 @@ router.post(
  */
 router.delete(
   "/delete/:postId",
-  isSignedIn,
-  permitPostModify,
+  userMiddlewares.isSignedIn,
+  boardMiddlewares.permitPostModify,
   async (req, res) => {
     const postId = req.params.postId;
     const deletedPostData = await Post.findOne({ where: { post_id: postId } });

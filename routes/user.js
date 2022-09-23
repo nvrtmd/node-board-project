@@ -4,45 +4,43 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const fs = require("fs");
 const multer = require("multer");
-const {
-  isExistedId,
-  isCorrectPassword,
-  isSignedIn,
-  isValidSignin,
-  isValidSignup,
-} = require("../middlewares/userMiddlewares");
+const userMiddlewares = require("../middlewares/userMiddlewares");
 
 const { User } = require("../models/index");
 
 /**
  * 파일 업로드 용 폴더 생성
  */
-fs.readdir("uploads", (err) => {
-  if (err) {
-    fs.mkdirSync("uploads");
-  }
-});
+// fs.readdir("uploads", (err) => {
+//   if (err) {
+//     fs.mkdirSync("uploads");
+//   }
+// });
 
 /**
  * 회원가입
  */
-router.post("/signup", isValidSignup, async (req, res, next) => {
-  const encodedPassword = await bcrypt.hash(req.body.userPassword, 12);
-  const userData = {
-    user_id: req.body.userId,
-    user_nickname: req.body.userNickname,
-    user_password: encodedPassword,
-    user_name: req.body.userName,
-    user_phone: req.body.userPhone,
-    // user_profile_image: req.body.userProfileImage,
-  };
-  await User.create(userData);
+router.post(
+  "/signup",
+  userMiddlewares.isValidSignup,
+  async (req, res, next) => {
+    const encodedPassword = await bcrypt.hash(req.body.userPassword, 12);
+    const userData = {
+      user_id: req.body.userId,
+      user_nickname: req.body.userNickname,
+      user_password: encodedPassword,
+      user_name: req.body.userName,
+      user_phone: req.body.userPhone,
+      // user_profile_image: req.body.userProfileImage,
+    };
+    await User.create(userData);
 
-  return res.status(201).json({
-    code: 201,
-    message: "created successfully.",
-  });
-});
+    return res.status(201).json({
+      code: 201,
+      message: "created successfully.",
+    });
+  }
+);
 
 /**
  * (개발용) 회원가입 페이지
@@ -57,9 +55,9 @@ router.get("/signup", async (req, res, next) => {
  */
 router.post(
   "/signin",
-  isValidSignin,
-  isExistedId,
-  isCorrectPassword,
+  userMiddlewares.isValidSignin,
+  userMiddlewares.isExistedId,
+  userMiddlewares.isCorrectPassword,
   async (req, res, next) => {
     const userData = {
       userId: req.body.userId,
@@ -85,7 +83,7 @@ router.post(
 /**
  * 로그아웃
  */
-router.get("/signout", isSignedIn, async (req, res, next) => {
+router.get("/signout", userMiddlewares.isSignedIn, async (req, res, next) => {
   const token = req.headers.cookie.split("=")[1];
 
   res.setHeader(
@@ -104,40 +102,44 @@ router.get("/signout", isSignedIn, async (req, res, next) => {
 /**
  * 회원탈퇴
  */
-router.delete("/deleteuser", isSignedIn, async (req, res, next) => {
-  const token = req.headers.cookie.split("=")[1];
-  const signedInUserId = jwt.verify(token, process.env.JWT_SECRET_KEY).userId;
-
-  const deletedUserData = await User.findOne({
-    where: { user_id: signedInUserId },
-  });
-
-  if (deletedUserData) {
-    await User.destroy({ where: { user_id: signedInUserId } });
+router.delete(
+  "/deleteuser",
+  userMiddlewares.isSignedIn,
+  async (req, res, next) => {
     const token = req.headers.cookie.split("=")[1];
-    res.setHeader(
-      "Set-Cookie",
-      `token=${token}; Path=/; HttpOnly; SameSite=none; secure=true; Max-Age=0`
-    );
+    const signedInUserId = jwt.verify(token, process.env.JWT_SECRET_KEY).userId;
 
-    // res.cookie("token", token, cookieConfig);
+    const deletedUserData = await User.findOne({
+      where: { user_id: signedInUserId },
+    });
 
-    return res.status(200).json({
-      code: 200,
-      message: "deleted successfully.",
-    });
-  } else {
-    return res.status(404).json({
-      code: 404,
-      message: "cannot find user.",
-    });
+    if (deletedUserData) {
+      await User.destroy({ where: { user_id: signedInUserId } });
+      const token = req.headers.cookie.split("=")[1];
+      res.setHeader(
+        "Set-Cookie",
+        `token=${token}; Path=/; HttpOnly; SameSite=none; secure=true; Max-Age=0`
+      );
+
+      // res.cookie("token", token, cookieConfig);
+
+      return res.status(200).json({
+        code: 200,
+        message: "deleted successfully.",
+      });
+    } else {
+      return res.status(404).json({
+        code: 404,
+        message: "cannot find user.",
+      });
+    }
   }
-});
+);
 
 /**
  * 회원 정보 조회
  */
-router.get("/profile", isSignedIn, async (req, res, next) => {
+router.get("/profile", userMiddlewares.isSignedIn, async (req, res, next) => {
   const token = req.headers.cookie.split("=")[1];
   const signedInUserId = jwt.verify(token, process.env.JWT_SECRET_KEY).userId;
 
@@ -154,7 +156,7 @@ router.get("/profile", isSignedIn, async (req, res, next) => {
 /**
  * 회원 정보 수정
  */
-router.post("/profile", isSignedIn, async (req, res, next) => {
+router.post("/profile", userMiddlewares.isSignedIn, async (req, res, next) => {
   const token = req.headers.cookie.split("=")[1];
   const signedInUserId = jwt.verify(token, process.env.JWT_SECRET_KEY).userId;
   const encodedPassword = await bcrypt.hash(req.body.userPassword, 12);
