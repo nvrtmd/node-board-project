@@ -1,6 +1,4 @@
 const { StatusCodes, ReasonPhrases } = require("http-status-codes");
-const jwt = require("jsonwebtoken");
-const { Post } = require("../../models");
 const boardServices = require("./boardServices");
 
 /**

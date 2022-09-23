@@ -1,12 +1,12 @@
 const { StatusCodes, ReasonPhrases } = require("http-status-codes");
-const { User } = require("../../models");
+const adminServices = require("./adminServices");
 
 /**
  * 회원 목록 조회
  */
-async function getListOfUsers(req, res, next) {
+async function getListOfUsers(req, res) {
   try {
-    const usersData = await User.findAll();
+    const usersData = await adminServices.getListOfUsers();
     return res.status(StatusCodes.OK).json({
       data: usersData,
     });
@@ -20,10 +20,9 @@ async function getListOfUsers(req, res, next) {
 /**
  * 단일 회원 정보 조회
  */
-async function getUserDataByUserIndex(req, res, next) {
+async function getUserDataByUserIndex(req, res) {
   try {
-    const userIndex = req.params.userIndex;
-    const userData = await User.findOne({ where: { id: userIndex } });
+    const userData = await adminServices.getUserDataByUserIndex(req);
     return res.status(StatusCodes.OK).json({
       data: userData,
     });
@@ -37,16 +36,9 @@ async function getUserDataByUserIndex(req, res, next) {
 /**
  * 회원 계정 삭제
  */
-async function deleteUserAccount(req, res, next) {
+async function deleteUserAccount(req, res) {
   try {
-    const userIndex = req.params.userIndex;
-    const deletedUserData = await User.findOne({ where: { id: userIndex } });
-    if (deletedUserData) {
-      await User.destroy({ where: { id: userIndex } });
-      return res.status(StatusCodes.OK), send(ReasonPhrases.OK);
-    } else {
-      return res.status(StatusCodes.NOT_FOUND), send(ReasonPhrases.NOT_FOUND);
-    }
+    await adminServices.deleteUserAccount(req, res);
   } catch {
     return res
       .status(StatusCodes.INTERNAL_SERVER_ERROR)
