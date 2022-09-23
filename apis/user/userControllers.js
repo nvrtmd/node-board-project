@@ -1,6 +1,7 @@
 const { StatusCodes, ReasonPhrases } = require("http-status-codes");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+const { User } = require("../../models");
 
 /**
  * 회원가입
