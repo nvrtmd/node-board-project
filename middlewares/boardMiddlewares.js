@@ -2,7 +2,7 @@ const jwt = require("jsonwebtoken");
 
 const { Post } = require("../models");
 
-exports.permitPostModify = async (req, res, next) => {
+async function permitPostModify(req, res, next) {
   const token = req.headers.cookie.split("=")[1];
   const signedInUserId = jwt.verify(token, process.env.JWT_SECRET_KEY).userId;
   const postId = req.params.postId;
@@ -16,4 +16,8 @@ exports.permitPostModify = async (req, res, next) => {
       message: "forbidden to modify or delete the post.",
     });
   }
+}
+
+module.exports = {
+  permitPostModify,
 };

@@ -21,7 +21,7 @@ const isValidSignin = [
   },
 ];
 
-const isExistedId = async (req, res, next) => {
+async function isExistedId(req, res, next) {
   const userData = await User.findOne({ where: { user_id: req.body.userId } });
   if (userData) {
     return next();
@@ -31,9 +31,9 @@ const isExistedId = async (req, res, next) => {
       message: "user id doesn't exist.",
     });
   }
-};
+}
 
-const isCorrectPassword = async (req, res, next) => {
+async function isCorrectPassword(req, res, next) {
   const userData = await User.findOne({ where: { user_id: req.body.userId } });
 
   const isCorrectPassword = await bcrypt.compare(
@@ -49,7 +49,7 @@ const isCorrectPassword = async (req, res, next) => {
       message: "user password isn't correct.",
     });
   }
-};
+}
 
 const isValidSignup = [
   body("userId").notEmpty().withMessage("please enter user id."),
@@ -71,7 +71,7 @@ const isValidSignup = [
   },
 ];
 
-const isSignedIn = async (req, res, next) => {
+async function isSignedIn(req, res, next) {
   try {
     const token = req.headers.cookie.split("=")[1];
     try {
@@ -89,9 +89,9 @@ const isSignedIn = async (req, res, next) => {
       message: "unauthorized user. Need to sign in.",
     });
   }
-};
+}
 
-const isAdminUser = async (req, res, next) => {
+async function isAdminUser(req, res, next) {
   const token = req.headers.cookie.split("=")[1];
   const signedInUserId = jwt.verify(token, process.env.JWT_SECRET_KEY).userId;
   const signedInUserData = await User.findOne({
@@ -109,7 +109,7 @@ const isAdminUser = async (req, res, next) => {
       });
     }
   }
-};
+}
 
 module.exports = {
   isExistedId,

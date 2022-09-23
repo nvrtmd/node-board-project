@@ -100,7 +100,7 @@ router.get("/signout", userMiddlewares.isSignedIn, async (req, res, next) => {
 });
 
 /**
- * 회원탈퇴
+ * 회원 탈퇴
  */
 router.delete(
   "/deleteuser",
