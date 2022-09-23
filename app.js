@@ -7,7 +7,7 @@ const cors = require("cors");
 const sequelize = require("./models/index.js").sequelize;
 require("dotenv").config();
 
-const boardRouter = require("./routes/board");
+const boardRouter = require("./apis/board/boardRouters");
 const userRouter = require("./apis/user/userRouters");
 const adminRouter = require("./routes/admin");
 
