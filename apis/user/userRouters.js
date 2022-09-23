@@ -2,10 +2,8 @@ const express = require("express");
 const router = express.Router();
 const fs = require("fs");
 const multer = require("multer");
-const userMiddlewares = require("../apis/user/userMiddlewares");
-const userControllers = require("../apis/user/userControllers");
-
-const { User } = require("../models/index");
+const userMiddlewares = require("./userMiddlewares");
+const userControllers = require("./userControllers");
 
 /**
  * 파일 업로드 용 폴더 생성

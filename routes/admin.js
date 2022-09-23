@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const userMiddlewares = require("../middlewares/userMiddlewares");
+const userMiddlewares = require("../apis/user/userMiddlewares");
 const { User } = require("../models/index");
 
 /**

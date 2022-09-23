@@ -1,6 +1,5 @@
 const jwt = require("jsonwebtoken");
-
-const { Post } = require("../models");
+const { Post } = require("../../models");
 
 async function permitPostModify(req, res, next) {
   const token = req.headers.cookie.split("=")[1];

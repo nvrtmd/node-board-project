@@ -16,7 +16,7 @@ const sequelize = new Sequelize(
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
 
-db.Post = require("./post.js")(sequelize, Sequelize);
-db.User = require("./user.js")(sequelize, Sequelize);
+db.Post = require("../apis/board/postModel.js")(sequelize, Sequelize);
+db.User = require("../apis/user/userModel.js")(sequelize, Sequelize);
 
 module.exports = db;
