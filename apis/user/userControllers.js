@@ -61,7 +61,7 @@ async function deleteUser(req, res, next) {
  */
 async function getProfile(req, res, next) {
   try {
-    const userData = userServices.getProfile(req);
+    const userData = await userServices.getProfile(req);
     return res.status(StatusCodes.OK).json({
       data: userData,
     });
