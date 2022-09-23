@@ -26,9 +26,9 @@ async function deleteUserAccount(req, res) {
   const deletedUserData = await User.findOne({ where: { id: userIndex } });
   if (deletedUserData) {
     await User.destroy({ where: { id: userIndex } });
-    return res.status(StatusCodes.OK), send(ReasonPhrases.OK);
+    return res.status(StatusCodes.OK).send(ReasonPhrases.OK);
   } else {
-    return res.status(StatusCodes.NOT_FOUND), send(ReasonPhrases.NOT_FOUND);
+    return res.status(StatusCodes.NOT_FOUND).send(ReasonPhrases.NOT_FOUND);
   }
 }
 
