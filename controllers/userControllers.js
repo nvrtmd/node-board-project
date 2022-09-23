@@ -1,4 +1,6 @@
 const { StatusCodes, ReasonPhrases } = require("http-status-codes");
+const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
 
 /**
  * 회원가입
