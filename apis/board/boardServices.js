@@ -21,8 +21,7 @@ async function getPostByPostId(req) {
     post_views: previousPostData.post_views + 1,
   };
   await Post.update(updatePostViews, { where: { post_id: postId } });
-  const postData = Object.assign({}, previousPostData);
-  postData.post_views = previousPostData.post_views + 1;
+  const postData = await Post.findOne({ where: { post_id: postId } });
   return postData;
 }
 
