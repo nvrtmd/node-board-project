@@ -9,7 +9,7 @@ require("dotenv").config();
 
 const boardRouter = require("./apis/board/boardRouters");
 const userRouter = require("./apis/user/userRouters");
-const adminRouter = require("./routes/admin");
+const adminRouter = require("./apis/admin/adminRouters");
 
 const app = express();
 
