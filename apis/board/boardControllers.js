@@ -1,6 +1,6 @@
 const { StatusCodes, ReasonPhrases } = require("http-status-codes");
 const jwt = require("jsonwebtoken");
-const { Post } = require("../models/index");
+const { Post } = require("../../models");
 
 /**
  * 게시글 목록 조회
