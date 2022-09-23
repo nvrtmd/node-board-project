@@ -1,4 +1,4 @@
-const { StatusCodes } = require("http-status-codes");
+const { StatusCodes, ReasonPhrases } = require("http-status-codes");
 
 /**
  * 회원가입
