@@ -5,9 +5,9 @@ const cookieParser = require("cookie-parser");
 const logger = require("morgan");
 const cors = require("cors");
 const sequelize = require("./models/index.js").sequelize;
-const swaggerUi = require("swagger-ui-express");
+// const swaggerUi = require("swagger-ui-express");
 const YAML = require("yamljs");
-const swaggerDocument = YAML.load("./swagger/swagger.yaml");
+// const swaggerDocument = YAML.load("./swagger/swagger.yaml");
 require("dotenv").config();
 
 const boardRouter = require("./apis/board/boardRouters");
@@ -37,7 +37,7 @@ app.use(
   })
 );
 
-app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+// app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 app.use("/board", boardRouter);
 app.use("/user", userRouter);
