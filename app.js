@@ -6,7 +6,7 @@ const logger = require("morgan");
 const cors = require("cors");
 const sequelize = require("./models/index.js").sequelize;
 // const swaggerUi = require("swagger-ui-express");
-const YAML = require("yamljs");
+// const YAML = require("yamljs");
 // const swaggerDocument = YAML.load("./swagger/swagger.yaml");
 require("dotenv").config();
 
