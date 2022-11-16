@@ -6,7 +6,7 @@
 <br>
 
 
-## 🧡Project Link
+## 🧡Deployed Link
 
 <a href="https://react-board-project.netlify.app/" target="_blank">🐤Link🐤</a>
 
