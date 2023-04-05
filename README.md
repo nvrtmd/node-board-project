@@ -8,7 +8,7 @@
 
 ## 🧡Deployed Link
 
-<a href="https://react-board-project.netlify.app/" target="_blank">🐤Link🐤</a>
+<a href="https://web-react-board-project-luj2cldvq6gpa.sel3.cloudtype.app/" target="_blank">🐤Link🐤</a>
 
 <br>
 
