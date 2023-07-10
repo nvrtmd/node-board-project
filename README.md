@@ -6,9 +6,9 @@
 <br>
 
 
-## 🧡Deployed Link
+## 🧡Demo video Link
 
-<a href="https://web-react-board-project-luj2cldvq6gpa.sel3.cloudtype.app/" target="_blank">🐤Link🐤</a>
+<a href="https://youtu.be/8WAxQXYuszs" target="_blank">🐤Link🐤</a>
 
 <br>
 
